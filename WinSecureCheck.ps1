@@ -1,5 +1,20 @@
 #Requires -Version 7.0
 
+param(
+  [Parameter()]
+  [string] $ReportPath = ".",
+
+  [Parameter()]
+  [switch] $EnableNetworkChecks,
+
+  [Parameter()]
+  [string] $NetworkTargetHost = "www.microsoft.com",
+
+  [Parameter()]
+  [ValidateRange(1, 65535)]
+  [int] $NetworkTargetPort = 443
+)
+
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
@@ -21,7 +36,7 @@ $ErrorActionPreference = "Stop"
 . "$PSScriptRoot/src/Reporting/Report.ps1"
 
 try {
-  $params = Get-WscParams @PSBoundParameters
+  $params = Get-WscParams -BoundParameters $PSBoundParameters
   if (-not (Test-WscParams -Params $params)) {
     Write-Host "Invalid parameters (ReportPath/Host/Port)." -ForegroundColor Red
     exit 2

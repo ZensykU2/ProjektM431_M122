@@ -8,19 +8,28 @@ function Get-LocalAdminsResult {
     [string[]] $BlacklistedAdmins = @("testadmin", "tempadmin")
   )
 
-  try {
-    # Get members of local Administrators group
-    $group = [ADSI]"WinNT://$env:COMPUTERNAME/Administrators,group"
-    $members = @($group.psbase.Invoke("Members")) | ForEach-Object {
-      $_.GetType().InvokeMember("Name", "GetProperty", $null, $_, $null)
-    }
+  $pointsMax = 15
 
-    $members = $members | Sort-Object
+  try {
+    # Built-in local Administrators group SID (language independent)
+    $adminGroupSid = "S-1-5-32-544"
+
+    # Get local group name by SID (works on DE/EN)
+    $adminGroupName = (Get-LocalGroup -SID $adminGroupSid -ErrorAction Stop).Name
+
+    # Get members of the local Administrators group
+    $members = @(
+      Get-LocalGroupMember -Group $adminGroupName -ErrorAction Stop |
+        Select-Object -ExpandProperty Name
+    ) | Sort-Object
+
     $count = $members.Count
 
+    # Blacklist check (case-insensitive; match only the last part if DOMAIN\User)
     $blacklistedFound = @()
     foreach ($m in $members) {
-      if ($BlacklistedAdmins -contains $m.ToLower()) {
+      $simple = ($m -split "\\")[-1].ToLowerInvariant()
+      if ($BlacklistedAdmins -contains $simple) {
         $blacklistedFound += $m
       }
     }
@@ -38,12 +47,10 @@ function Get-LocalAdminsResult {
       return New-CheckResult `
         -Name "LocalAdmins" `
         -Status "Fail" `
-        -Details (
-          "Admins: " + ($members -join ", ") + " | " + ($reasons -join "; ")
-        ) `
+        -Details ("Admins ($count): " + ($members -join ", ") + " | " + ($reasons -join "; ")) `
         -Recommendation "Remove unnecessary admin accounts and follow least privilege." `
-        -PointsMax 15 `
-        -RawData @{ AdminMembers = $members; Count = $count }
+        -PointsMax $pointsMax `
+        -RawData @{ Group = $adminGroupName; Members = $members; Count = $count }
     }
 
     return New-CheckResult `
@@ -51,14 +58,14 @@ function Get-LocalAdminsResult {
       -Status "Pass" `
       -Details ("Admins ($count): " + ($members -join ", ")) `
       -Recommendation "Keep the number of administrators low (least privilege)." `
-      -PointsMax 15 `
-      -RawData @{ AdminMembers = $members; Count = $count }
+      -PointsMax $pointsMax `
+      -RawData @{ Group = $adminGroupName; Members = $members; Count = $count }
   } catch {
     return New-CheckResult `
       -Name "LocalAdmins" `
       -Status "Unknown" `
       -Details ("Error reading local administrators: " + $_.Exception.Message) `
       -Recommendation "Verify local admin membership manually." `
-      -PointsMax 15
+      -PointsMax $pointsMax
   }
 }

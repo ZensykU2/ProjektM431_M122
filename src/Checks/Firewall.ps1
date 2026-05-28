@@ -4,9 +4,13 @@ function Get-FirewallResult {
 
   try {
     $profiles = Get-NetFirewallProfile
-    $disabled = $profiles | Where-Object { -not $_.Enabled } | Select-Object -ExpandProperty Name
+    $disabled = @(
+      $profiles |
+        Where-Object { -not $_.Enabled } |
+        Select-Object -ExpandProperty Name
+    )
 
-    if ($null -eq $disabled -or $disabled.Count -eq 0) {
+    if ($disabled.Count -eq 0) {
       return New-CheckResult `
         -Name "Firewall" `
         -Status "Pass" `

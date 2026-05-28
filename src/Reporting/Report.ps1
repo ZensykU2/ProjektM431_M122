@@ -24,10 +24,26 @@ function Write-WscReport {
   $lines.Add("Total: $TotalAchieved / $TotalMax")
   $lines.Add("")
 
-  $fail = $Results | Where-Object { $_.Status -eq "Fail" } | Select-Object -ExpandProperty Name
-  $unk = $Results | Where-Object { $_.Status -eq "Unknown" } | Select-Object -ExpandProperty Name
-  if ($fail.Count -gt 0) { $lines.Add("Failed checks: " + ($fail -join ", ")) }
-  if ($unk.Count -gt 0) { $lines.Add("Unknown checks: " + ($unk -join ", ")) }
+  $fail = @(
+  $Results |
+    Where-Object { $_.Status -eq "Fail" } |
+    Select-Object -ExpandProperty Name
+  )
+
+  $unk = @(
+    $Results |
+      Where-Object { $_.Status -eq "Unknown" } |
+      Select-Object -ExpandProperty Name
+  )
+
+  if ($fail.Count -gt 0) {
+    $lines.Add("Failed checks: " + ($fail -join ", "))
+  }
+
+  if ($unk.Count -gt 0) {
+    $lines.Add("Unknown checks: " + ($unk -join ", "))
+  }
+  
   $lines.Add("")
   $lines.Add("----------------------------------------")
   $lines.Add("DETAILS")

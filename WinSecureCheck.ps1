@@ -102,5 +102,6 @@ try {
   exit 0
 } catch {
   Write-Host "Fatal error: $($_.Exception.Message)" -ForegroundColor Red
+  Write-Host $_.ScriptStackTrace -ForegroundColor DarkGray
   exit 3
 }

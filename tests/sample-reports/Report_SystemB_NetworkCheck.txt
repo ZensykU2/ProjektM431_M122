@@ -1,0 +1,45 @@
+WinSecureCheck Report
+Generated: 2026-06-05 10:43:35
+Host: NBKAUZCT01
+User: CTorreDeFrancisco
+PowerShell: 7.6.2
+----------------------------------------
+
+SUMMARY
+Score: 48 / 100
+Total: 47.5 / 100
+
+Failed checks: Firewall, Ports, NetworkChecks
+Unknown checks: LocalAdmins
+
+----------------------------------------
+DETAILS
+
+SystemInfo: Pass (0/0)
+Details: OS=Microsoft Windows 11 Pro, Build=26200, Uptime=194.1h
+Recommendation: -
+
+LocalAdmins: Unknown (7.5/15)
+Details: Error reading local administrators: Unbekannter Fehler: Fehlercode =1789
+Recommendation: Verify local admin membership manually.
+
+Firewall: Fail (0/25)
+Details: Disabled profiles: Domain, Private, Public
+Recommendation: Enable Windows Firewall for all profiles.
+
+Updates: Pass (20/20)
+Details: Last update: 2026-05-21 (15 days ago)
+Recommendation: Keep installing updates regularly.
+
+Antivirus: Pass (20/20)
+Details: Defender: AMServiceEnabled=True, AntivirusEnabled=True, RealTimeProtectionEnabled=True | SecurityCenter2 AV products: count=1, names=Windows Defender
+Recommendation: Keep antivirus enabled and up to date.
+
+Ports: Fail (0/10)
+Details: Critical TCP ports listening: 139, 445
+Recommendation: Close/disable unnecessary services or restrict access with firewall rules.
+
+NetworkChecks: Fail (0/10)
+Details: DNS=Unknown (www.microsoft.com : Dieser Vorgang wurde wegen Zeitüberschreitung zurückgegeben.) | Ping=Fail (No reply) | Port=Fail (TCP failed)
+Recommendation: Check DNS settings, routing/connectivity, and outbound firewall rules.
+

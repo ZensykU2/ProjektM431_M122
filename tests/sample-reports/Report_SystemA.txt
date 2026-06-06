@@ -1,0 +1,44 @@
+WinSecureCheck Report
+Generated: 2026-06-04 22:02:19
+Host: DESKTOP-1OI5QOK
+User: Zensyk
+PowerShell: 7.6.2
+----------------------------------------
+
+SUMMARY
+Score: 89 / 100
+Total: 80 / 90
+
+Failed checks: Ports
+
+----------------------------------------
+DETAILS
+
+SystemInfo: Pass (0/0)
+Details: OS=Microsoft Windows 11 Home, Build=26200, Uptime=215.2h
+Recommendation: -
+
+LocalAdmins: Pass (15/15)
+Details: Admins (2): DESKTOP-1OI5QOK\Administrator, DESKTOP-1OI5QOK\Zensyk
+Recommendation: Keep the number of administrators low (least privilege).
+
+Firewall: Pass (25/25)
+Details: All firewall profiles enabled (Domain/Private/Public).
+Recommendation: Keep Windows Firewall enabled for all profiles.
+
+Updates: Pass (20/20)
+Details: Last update: 2026-05-14 (21 days ago)
+Recommendation: Keep installing updates regularly.
+
+Antivirus: Pass (20/20)
+Details: Defender: AMServiceEnabled=True, AntivirusEnabled=True, RealTimeProtectionEnabled=True | SecurityCenter2 AV products: count=1, names=Windows Defender
+Recommendation: Keep antivirus enabled and up to date.
+
+Ports: Fail (0/10)
+Details: Critical TCP ports listening: 139, 445
+Recommendation: Close/disable unnecessary services or restrict access with firewall rules.
+
+NetworkChecks: NotRun (0/10)
+Details: Not enabled (use -EnableNetworkChecks)
+Recommendation: Enable network checks if connectivity should be verified.
+

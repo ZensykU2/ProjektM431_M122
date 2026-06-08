@@ -97,7 +97,7 @@ function Write-WscSummaryDashboard {
 
   Write-Host ""
   Write-Host "`e[1;38;2;189;110;255mAUDIT RESULTS SUMMARY`e[0m"
-  Write-Host "`e[38;2;107;114;128m" + ("=" * 80) + "`e[0m"
+  Write-Host "`e[38;2;107;114;128m$('=' * 80)`e[0m"
 
   # Score gauge
   $filledLength = [int][math]::Round(($Score / 100) * 30)
@@ -148,7 +148,7 @@ function Write-WscSummaryDashboard {
   }
 
   Write-Host ""
-  Write-Host "`e[38;2;107;114;128m" + ("=" * 80) + "`e[0m"
+  Write-Host "`e[38;2;107;114;128m$('=' * 80)`e[0m"
   Write-Host "  `e[1;38;2;74;222;128m✔`e[0m Report generated: `e[4;38;2;0;191;255m$ReportFilePath`e[0m"
   Write-Host ""
 }

@@ -1,6 +1,7 @@
 # Load formatting helper
 . "$PSScriptRoot/../src/Utils/Format.ps1"
 . "$PSScriptRoot/../src/Models/CheckResult.ps1"
+. "$PSScriptRoot/../src/Reporting/Report.ps1"
 
 # Render Banner
 Write-WscBanner
@@ -50,5 +51,15 @@ $r7 = New-CheckResult -Name "NetworkChecks" -Status "NotRun" -Details "Not enabl
 $results.Add($r7)
 Write-ScanFinish -Name "NetworkChecks" -Status $r7.Status -Details $r7.Details
 
+$reportFilePath = "$PSScriptRoot/WinSecureCheck_Report_Mock.txt"
+
+# Write the report file to disk
+Write-WscReport `
+  -ReportFilePath $reportFilePath `
+  -Results $results `
+  -TotalAchieved 60 `
+  -TotalMax 90 `
+  -Score 77
+
 # Render Dashboard
-Write-WscSummaryDashboard -Results $results -Score 77 -TotalAchieved 60 -TotalMax 90 -ReportFilePath "C:\Temp\WinSecureCheck_Report_Mock.txt"
+Write-WscSummaryDashboard -Results $results -Score 77 -TotalAchieved 60 -TotalMax 90 -ReportFilePath $reportFilePath

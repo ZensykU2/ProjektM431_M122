@@ -48,7 +48,6 @@ try {
     exit 1
   }
 
-  # Render beautiful title banner and machine info
   Write-WscBanner
 
   $criticalPorts = @(
@@ -123,7 +122,6 @@ try {
     -TotalMax $score.TotalMax `
     -Score $score.Score
 
-  # Render beautiful TUI summary dashboard
   Write-WscSummaryDashboard `
     -Results $results `
     -Score $score.Score `

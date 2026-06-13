@@ -14,7 +14,6 @@ function Get-LocalAdminsResult {
     # Built-in local Administrators group SID (language independent)
     $adminGroupSid = "S-1-5-32-544"
 
-    # Get local group name by SID (works on DE/EN)
     $adminGroupName = (Get-LocalGroup -SID $adminGroupSid -ErrorAction Stop).Name
 
     # Get members of the local Administrators group
@@ -25,7 +24,6 @@ function Get-LocalAdminsResult {
 
     $count = $members.Count
 
-    # Blacklist check (case-insensitive; match only the last part if DOMAIN\User)
     $blacklistedFound = @()
     foreach ($m in $members) {
       $simple = ($m -split "\\")[-1].ToLowerInvariant()
